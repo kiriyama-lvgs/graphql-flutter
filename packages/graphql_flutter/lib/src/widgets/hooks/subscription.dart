@@ -70,7 +70,7 @@ class _SubscriptionHookState<TParsed> extends HookState<
   late Stream<QueryResult<TParsed>> stream;
 
   ConnectivityResult? _currentConnectivityResult;
-  StreamSubscription<ConnectivityResult>? _networkSubscription;
+  StreamSubscription<List<ConnectivityResult>>? _networkSubscriptions;
 
   void _initSubscription() {
     final client = hook.client;
@@ -88,7 +88,7 @@ class _SubscriptionHookState<TParsed> extends HookState<
   void initHook() {
     super.initHook();
     _initSubscription();
-    _networkSubscription =
+    _networkSubscriptions =
         Connectivity().onConnectivityChanged.listen(_onNetworkChange);
   }
 
@@ -103,16 +103,16 @@ class _SubscriptionHookState<TParsed> extends HookState<
 
   @override
   void dispose() {
-    _networkSubscription?.cancel();
+    _networkSubscriptions?.cancel();
     super.dispose();
   }
 
-  Future<void> _onNetworkChange(ConnectivityResult result) async {
+  Future<void> _onNetworkChange(List<ConnectivityResult> result) async {
     //if from offline to online
     if (_currentConnectivityResult == ConnectivityResult.none &&
         (result == ConnectivityResult.mobile ||
             result == ConnectivityResult.wifi)) {
-      _currentConnectivityResult = result;
+      _currentConnectivityResult = result.first;
 
       // android connectivitystate cannot be trusted
       // validate with nslookup
@@ -131,7 +131,7 @@ class _SubscriptionHookState<TParsed> extends HookState<
         _initSubscription();
       }
     } else {
-      _currentConnectivityResult = result;
+      _currentConnectivityResult = result.first;
     }
   }
 
