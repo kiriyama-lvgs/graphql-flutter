@@ -1,7 +1,7 @@
 name: graphql_flutter
 description: A GraphQL client for Flutter, bringing all the features from a modern GraphQL client to one easy to use package.
-version: 5.2.0-beta.6
-repository: https://github.com/zino-app/graphql-flutter/tree/main/packages/graphql_flutter
+version: 5.1.2+connectivity_plus_6_0_1
+repository: https://github.com/kiriyama-lvgs/graphql-flutter/tree/main/packages/graphql_flutter
 issue_tracker: https://github.com/zino-hofmann/graphql-flutter/issues
 
 # just for dev work
